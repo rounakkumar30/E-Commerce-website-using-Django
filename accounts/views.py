@@ -11,6 +11,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+import uuid
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 
 
@@ -102,6 +106,61 @@ class CustomPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
     def form_valid(self, form):
         messages.success(self.request, "Your password has been changed successfully!")
         return super().form_valid(form)
+    
+def forgot_password(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        user = User.objects.filter(email=email).first()
+
+        if user:
+            token = str(uuid.uuid4())  # Generate a unique token
+            profile = Profile.objects.get(user=user)
+            profile.email_token = token
+            profile.save()
+
+            reset_url = f"{request.build_absolute_uri('/reset-password/')}{token}/"
+            send_mail(
+                "Password Reset Request",
+                f"Click the link to reset your password: {reset_url}",
+                settings.DEFAULT_FROM_EMAIL,
+                [email],
+                fail_silently=False,
+            )
+
+            messages.success(request, "Password reset email has been sent.")
+            return redirect("login")
+
+        messages.error(request, "No account found with this email.")
+    return render(request, "accounts/forgot_password.html")
+
+
+def reset_password(request, token):
+    print(f"Token received: {token}")
+    profile = Profile.objects.filter(email_token=token).first()
+    
+    if not profile:
+        messages.error(request, "Invalid or expired token.")
+        return redirect("forgot_password")
+
+    if request.method == "POST":
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if new_password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect(f"/reset-password/{token}/")
+
+        user = profile.user
+        user.set_password(new_password)
+        user.save()
+
+        profile.email_token = ""  # Reset token after use
+        profile.save()
+
+        messages.success(request, "Password has been reset successfully.")
+        return redirect("login")
+
+    return render(request, "accounts/reset_password.html", {"token": token})
 
 
 def activate_email(request, email_token):

@@ -1,6 +1,8 @@
 from django.urls import path
 from accounts.views import *
 from . import views  # Import views from the same app
+from uuid import UUID
+
 
 
 urlpatterns = [
@@ -13,7 +15,8 @@ urlpatterns = [
     path("delete_account/", delete_account, name="delete_account"),
     path('change-password/', change_password, name='change_password'),
     path('change-password/', CustomPasswordChangeView.as_view(), name='change_password'),
-
+    path('forgot-password/', forgot_password, name='forgot_password'),
+    path("reset-password/<str:token>/", reset_password, name="reset_password"),
     path("cart/", cart, name="cart"),
     path("add-to-cart/<uid>/", add_to_cart, name="add_to_cart"),
     path("remove-cart/<uid>/", remove_cart, name="remove_cart"),
