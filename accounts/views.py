@@ -68,6 +68,11 @@ def activate_email(request, email_token):
         return redirect('/')
     except Profile.DoesNotExist:
         return HttpResponse('Invalid Email Token')
+    
+
+def profile_view(request):
+    return render(request, 'accounts/profile.html')
+
 
 def add_to_cart(request, uid):
     if not request.user.is_authenticated:
