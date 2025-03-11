@@ -4,7 +4,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Profile
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+
+
 
 from accounts.models import Cart, CartItems
 from products.models import *
@@ -70,6 +78,30 @@ def register_page(request):
 
     return render(request, 'accounts/register.html')
 
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Keep user logged in
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('profile')  # Redirect to profile page after change
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'accounts/change_password.html', {'form': form})
+
+class CustomPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'change_password.html'
+    success_url = reverse_lazy('profile')  # Redirect to Profile Page
+    success_message = "Your password has been changed successfully!"  # Success Message
+
+    def form_valid(self, form):
+        messages.success(self.request, "Your password has been changed successfully!")
+        return super().form_valid(form)
 
 
 def activate_email(request, email_token):
