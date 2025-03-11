@@ -41,6 +41,7 @@ def register_page(request):
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        address = request.POST.get('address')
 
         user_obj = User.objects.filter(username=email)
 
@@ -48,6 +49,7 @@ def register_page(request):
             messages.warning(request, 'Email is already taken.')
             return HttpResponseRedirect(request.path_info)
 
+        # Create user
         user_obj = User.objects.create(
             first_name=first_name, 
             last_name=last_name, 
@@ -57,11 +59,13 @@ def register_page(request):
         user_obj.set_password(password)
         user_obj.save()
 
-        messages.success(request, 'An email has been sent to your email address.')
-        return HttpResponseRedirect(request.path_info)
+        # Create profile with address
+        Profile.objects.create(user=user_obj, address=address)
+
+        messages.success(request, 'Registration successful! You can now log in.')
+        return redirect('login')  # Redirect to login page
 
     return render(request, 'accounts/register.html')
-
 def activate_email(request, email_token):
     try:
         user = Profile.objects.get(email_token=email_token)
@@ -84,15 +88,20 @@ def edit_profile(request):
     if request.method == "POST":
         first_name = request.POST.get("first_name", "").strip()
         last_name = request.POST.get("last_name", "").strip()
+        address = request.POST.get("address", "").strip()
 
-        # Update user profile
         user = request.user
         user.first_name = first_name
         user.last_name = last_name
         user.save()
 
+        # Update address in profile
+        profile, created = Profile.objects.get_or_create(user=user)
+        profile.address = address
+        profile.save()
+
         messages.success(request, "Profile updated successfully!")
-        return redirect("profile")  # Redirect back to profile page
+        return redirect("profile")
 
     return render(request, "accounts/edit_profile.html")
 

@@ -1,37 +1,43 @@
 {% extends 'base/base.html' %}
 
 {% block start %}
-<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <div class="card shadow-lg p-4" style="width: 50%; min-width: 350px;">
-        <div class="card-body text-center">
-            <h2 class="mb-4">User Profile</h2>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="text-center">User Profile</h2>
             <hr>
 
-            <h4>Hello, {{ request.user.username }}!</h4>
-            <p><strong>Email:</strong> {{ request.user.email }}</p>
-            <p>
-                <strong>Email Verified:</strong> 
-                {% if request.user.is_active %}
-                    <span class="text-success fw-bold">✔ Verified</span>
-                {% else %}
-                    <span class="text-danger fw-bold">✘ Not Verified</span>
-                {% endif %}
-            </p>
-            <p>
-                <strong>Full Name:</strong> 
-                {% if request.user.first_name or request.user.last_name %}
-                    {{ request.user.first_name }} {{ request.user.last_name }}
-                {% else %}
-                    Not Provided
-                {% endif %}
-            </p>
-            <p><strong>Date Joined:</strong> {{ request.user.date_joined }}</p>
-            <p><strong>Last Login:</strong> {{ request.user.last_login }}</p>
-            <p><strong>Cart Items:</strong> {{ request.user.profile.get_cart_count }}</p>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h4>Hello, {{ request.user.username }}!</h4>
+                    <p><strong>Email:</strong> {{ request.user.email }}</p>
+                    <p><strong>Full Name:</strong> 
+                        {% if request.user.first_name or request.user.last_name %}
+                            {{ request.user.first_name }} {{ request.user.last_name }}
+                        {% else %}
+                            Not Provided
+                        {% endif %}
+                    </p>
+                    <p><strong>Address:</strong> 
+                        {% if request.user.profile.address %}
+                            {{ request.user.profile.address }}
+                        {% else %}
+                            Not Provided
+                        {% endif %}
+                    </p>
+                    <p><strong>Email Verified:</strong> 
+                        {% if request.user.is_active %}
+                            ✅ Yes
+                        {% else %}
+                            ❌ No
+                        {% endif %}
+                    </p>
+                    <p><strong>Date Joined:</strong> {{ request.user.date_joined }}</p>
+                    <p><strong>Last Login:</strong> {{ request.user.last_login }}</p>
 
-            <div class="d-flex justify-content-center mt-3">
-                <a href="{% url 'edit_profile' %}" class="btn btn-warning me-2">Edit Profile</a>
-                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                    <a href="{% url 'edit_profile' %}" class="btn btn-warning">Edit Profile</a>
+                    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                </div>
             </div>
         </div>
     </div>
