@@ -1,5 +1,5 @@
 from django.urls import path
-from accounts.views import cart, login_page, register_page, activate_email, add_to_cart, remove_cart,logout_view,profile_view, edit_profile
+from accounts.views import cart, login_page, register_page, activate_email, add_to_cart, remove_cart,logout_view,profile_view, edit_profile,delete_account
 from . import views  # Import views from the same app
 
 
@@ -10,8 +10,7 @@ urlpatterns = [
     path("activate/<email_token>/", activate_email, name="activate_email"),
     path('profile/', profile_view, name='profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
-
-
+    path("delete_account/", delete_account, name="delete_account"),
     path("cart/", cart, name="cart"),
     path("add-to-cart/<uid>/", add_to_cart, name="add_to_cart"),
     path("remove-cart/<uid>/", remove_cart, name="remove_cart"),

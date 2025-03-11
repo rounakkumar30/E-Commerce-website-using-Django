@@ -84,26 +84,15 @@ def profile_view(request):
 
 
 @login_required
-def edit_profile(request):
+def delete_account(request):
     if request.method == "POST":
-        first_name = request.POST.get("first_name", "").strip()
-        last_name = request.POST.get("last_name", "").strip()
-        address = request.POST.get("address", "").strip()
-
         user = request.user
-        user.first_name = first_name
-        user.last_name = last_name
-        user.save()
+        user.delete()
+        messages.success(request, "Your account has been deleted successfully.")
+        return redirect("index")  
 
-        # Update address in profile
-        profile, created = Profile.objects.get_or_create(user=user)
-        profile.address = address
-        profile.save()
+    return render(request, "accounts/delete_account.html")
 
-        messages.success(request, "Profile updated successfully!")
-        return redirect("profile")
-
-    return render(request, "accounts/edit_profile.html")
 
 @login_required
 def edit_profile(request):
