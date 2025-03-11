@@ -27,3 +27,11 @@ def get_product(request, slug):
     except Exception as e:
         print(f"Error in get_product: {e}")
         return render(request, 'product/product.html', {'error': 'An error occurred'}, status=500)
+    
+def search_results(request):
+    query = request.GET.get('q', '').strip()
+    products = Product.objects.filter(product_name__icontains=query)  # ✅ Correct field name
+    
+    context = {"products": products, "query": query}  # Ensure products are passed
+    return render(request, "product/search_results.html", context)
+

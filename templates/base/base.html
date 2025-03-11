@@ -77,9 +77,9 @@
         
                     <!-- Center: Search Bar -->
                     <div class="col-lg-4 col-12 d-flex justify-content-center">
-                        <form action="#" class="search w-100" style="max-width: 400px;">
+                        <form action="{% url 'search_results' %}" method="GET" class="search w-100" style="max-width: 400px;">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search" 
+                                <input type="text" name="q" class="form-control" placeholder="Search" required 
                                        style="border-radius: 20px 0 0 20px; padding: 10px; border: none; background: #f5f5dc; color: #1a1a1a;">
                                 <div class="input-group-append">
                                     <button class="btn" type="submit" 
@@ -89,6 +89,8 @@
                                 </div>
                             </div>
                         </form>
+                        
+                        
                     </div>
         
                     <!-- Right Side: Cart, Profile, Login/Register -->
@@ -151,25 +153,5 @@
     {% include 'base/footer.html' %}
 
 </body>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector(".search");
-
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevents page reload
-
-            const searchInput = form.querySelector(".form-control").value.trim();
-
-            if (searchInput) {
-                console.log("Searching for:", searchInput);
-                // Implement your search logic here, like redirecting or filtering results
-            } else {
-                alert("Please enter a search term!");
-            }
-        });
-    });
-
-</script>
 
 </html>

@@ -1,0 +1,26 @@
+{% extends 'base/base.html' %}
+
+{% block start %}
+<div class="container mt-4">
+    <h2>Search Results for "{{ query }}"</h2>
+    
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                            <a href="{% url 'get_product' product.slug %}" class="btn btn-primary">View Product</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+</div>
+{% endblock %}

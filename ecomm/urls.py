@@ -4,6 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from accounts.views import reset_password
+from products.views import search_results
+
 
 urlpatterns = [
     path('accounts/', include('accounts.urls')),  # Fixed quotes and missing comma
@@ -11,6 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')), 
     path("reset-password/<str:token>/", reset_password, name="reset_password"),
+    path('search/', search_results, name='search_results'),
     
 ]
 
