@@ -10,106 +10,195 @@
         100% { background-position: 0% 50%; }
     }
 
-    .section-container {
-        min-height: 100vh;
+    .section-content {
         background: linear-gradient(-45deg, #000000, #b8860b, #222, #ffd700);
         background-size: 300% 300%;
         animation: gradientBG 8s ease infinite;
         padding-top: 50px;
         padding-bottom: 50px;
+        color: #fff;
+    }
+
+    /* Card Styling */
+    .card {
+        background: #222;
+        color: #fff;
+        border-radius: 12px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+        margin-bottom: 30px;
+        padding: 20px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .table th, .table td {
+        color: #fff !important;
+        padding: 15px;
+        vertical-align: middle;
+    }
+
+    /* Ensure price text is white */
+    .price-wrap var.price {
+        color: #fff !important;
+        font-weight: bold;
+    }
+
+    .table-shopping-cart .btn,
+    .input-group-append button {
+        background: #ffd700;
+        color: #222;
+        font-weight: bold;
+        padding: 12px 20px;
+        border-radius: 8px;
+        transition: 0.3s;
+        text-align: center;
+    }
+
+    .table-shopping-cart .btn:hover,
+    .input-group-append button:hover {
+        background: #b8860b;
+        transform: scale(1.02);
+    }
+
+    .alert {
+        background: #444;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .form-control {
+        background: #444;
+        color: #fff;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .dlist-align dt {
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .dlist-align dd {
+        color: #ffd700;
+    }
+
+    .btn-primary {
+        background: #b8860b;
+        color: #222;
+        font-weight: bold;
+        padding: 12px 20px;
+        border-radius: 8px;
+        transition: 0.3s;
+        text-align: center;
+    }
+
+    .btn-primary:hover {
+        background: #ffd700;
+    }
+
+    .btn-light {
+        color: #ffd700;
+        font-weight: bold;
+        transition: 0.3s;
+        text-align: center;
+    }
+
+    .btn-light:hover {
+        color: #222;
+        background: #b8860b;
     }
 </style>
 
-<section class="section-container">
-    <section class="section-content padding-y">
-        <div class="container">
-            <div class="row">
-                <main class="col-md-9">
-                    <div class="card">
-                        <table class="table table-borderless table-shopping-cart">
-                            <thead class="text-muted">
-                                <tr class="small text-uppercase">
-                                    <th scope="col">Product</th>
-                                    <th scope="col" width="120">Quantity</th>
-                                    <th scope="col" width="120">Price</th>
-                                    <th scope="col" class="text-right" width="200"> </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for cart_item in cart_items %}
-                                <tr>
-                                    <td>
-                                        <figure class="itemside">
-                                            <div class="aside">
-                                                <img src="{{ cart_item.product.product_images.first.image.url }}" class="img-sm">
-                                            </div>
-                                            <figcaption class="info">
-                                                <a href="#" class="title text-dark">{{ cart_item.product.product_name }}</a>
-                                                <p class="text-muted small">
-                                                    Size: {{ cart_item.size_variant.size_name|default:"N/A" }},  
-                                                    Color: {{ cart_item.color_variant.color_name|default:"N/A" }}
-                                                </p>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td> 
-                                        {{ cart_item.quantity }}
-                                    </td>
-
-                                    <td> 
-                                        <div class="price-wrap"> 
-                                            <var class="price">{{ cart_item.product.price }}</var> 
+<section class="section-content padding-y">
+    <div class="container">
+        <div class="row">
+            <main class="col-md-9">
+                <div class="card">
+                    <table class="table table-borderless table-shopping-cart">
+                        <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col">Product</th>
+                                <th scope="col" width="120">Quantity</th>
+                                <th scope="col" width="120">Price</th>
+                                <th scope="col" class="text-right" width="200"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cart_item in cart_items %}
+                            <tr>
+                                <td>
+                                    <figure class="itemside">
+                                        <div class="aside">
+                                            <img src="{{ cart_item.product.product_images.first.image.url }}" class="img-sm">
                                         </div>
-                                    </td>
-                                    <td class="text-right"> 
-                                        <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-light"> Remove</a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-
-                        <div class="card-body border-top">
-                            <a href="#" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a>
-                            <a href="{% url 'index' %}" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
-                        </div>	
-                    </div>
-
-                    <div class="alert alert-success mt-3">
-                        <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
-                    </div>
-                </main>
-
-                <aside class="col-md-3">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group">
-                                    <label>Have a coupon?</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Coupon code">
-                                        <span class="input-group-append"> 
-                                            <button class="btn btn-primary">Apply</button>
-                                        </span>
+                                        <figcaption class="info">
+                                            <a href="#" class="title text-white">{{ cart_item.product.product_name }}</a>
+                                            <p class="text-muted small">
+                                                Size: {{ cart_item.size_variant.size_name|default:"N/A" }},
+                                                Color: {{ cart_item.color_variant.color_name|default:"N/A" }}
+                                            </p>
+                                        </figcaption>
+                                    </figure>
+                                </td>
+                                <td>
+                                    {{ cart_item.quantity }}
+                                </td>
+                                <td>
+                                    <div class="price-wrap">
+                                        <var class="price">{{ cart_item.product.price }}</var> <!-- Price text should be white -->
                                     </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <a href="{% url 'remove_cart' cart_item.uid %}" class="btn btn-light"> Remove</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <dl class="dlist-align">
-                                <dt>Total:</dt>
-                                <dd class="text-right h5"><strong>{{ final_total }}</strong></dd>
-                            </dl>
-                            <hr>
-                        </div>
+                    <div class="card-body border-top">
+                        <a href="#" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a>
+                        <a href="{% url 'index' %}" class="btn btn-primary"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
                     </div>
-                </aside>
-            </div>
+                </div>
+
+                <div class="alert alert-success mt-3">
+                    <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
+                </div>
+            </main>
+
+            <aside class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Have a coupon?</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Coupon code">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-primary">Apply</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <dt>Total:</dt>
+                            <dd class="text-right h5"><strong>{{ final_total }}</strong></dd>
+                        </dl>
+                        <hr>
+                    </div>
+                </div>
+            </aside>
         </div>
-    </section>
+    </div>
 </section>
 
 {% endblock %}

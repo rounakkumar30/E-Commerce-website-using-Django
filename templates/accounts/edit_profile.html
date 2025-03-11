@@ -21,21 +21,25 @@
         padding-bottom: 50px;
     }
 
+    /* Card Styling */
     .card {
         width: 100%;
         max-width: 500px;
         border-radius: 15px;
-        background: #ffffff;
+        background: #222;
+        color: #fff;
         box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+        padding: 30px;
     }
 
     h2 {
         font-weight: bold;
-        color: #343a40;
+        color: #fff;
+        font-size: 26px;
     }
 
     hr {
-        border-top: 2px solid #007bff;
+        border-top: 2px solid #ffd700;
         width: 50%;
         margin: auto;
     }
@@ -44,14 +48,19 @@
         border-radius: 10px;
         border: 1px solid #ced4da;
         padding: 10px;
-        background: #f8f9fa;
-        color: #495057;
+        background: #444;
+        color: #fff;
+    }
+
+    .form-control:focus {
+        border-color: #ffd700;
+        background-color: #333;
     }
 
     button {
         width: 100%;
-        background: #007bff;
-        color: white;
+        background: linear-gradient(to right, #ffd700, #b8860b);
+        color: #222;
         font-weight: bold;
         padding: 12px;
         border-radius: 10px;
@@ -60,32 +69,30 @@
     }
 
     button:hover {
-        background: #0056b3;
+        background: linear-gradient(to right, #b8860b, #ffd700);
         transform: scale(1.02);
     }
 
-    .btn.cancel-btn {
-        background: #6c757d;
-    }
-
-    a {
-        display: block;
+    /* Cancel Button as Text Link Styling */
+    .cancel-link {
+        display: inline-block;
         text-align: center;
         margin-top: 15px;
-        color: #007bff;
+        color: #ffd700;
         font-weight: bold;
         text-decoration: none;
         transition: 0.3s;
     }
 
-    a:hover {
+    .cancel-link:hover {
         text-decoration: underline;
-        color: #0056b3;
+        color: #b8860b;
     }
 
     .alert {
         font-weight: bold;
         text-align: center;
+        margin-top: 10px;
     }
 </style>
 
@@ -105,23 +112,23 @@
             <form method="POST" class="mt-3">
                 {% csrf_token %}
                 <div class="mb-3 text-start">
-                    <label for="first_name" class="form-label" style="font-weight: 600; color: #343a40;">First Name</label>
+                    <label for="first_name" class="form-label" style="font-weight: 600; color: #fff;">First Name</label>
                     <input type="text" class="form-control" id="first_name" name="first_name" value="{{ request.user.first_name }}">
                 </div>
                 <div class="mb-3 text-start">
-                    <label for="last_name" class="form-label" style="font-weight: 600; color: #343a40;">Last Name</label>
+                    <label for="last_name" class="form-label" style="font-weight: 600; color: #fff;">Last Name</label>
                     <input type="text" class="form-control" id="last_name" name="last_name" value="{{ request.user.last_name }}">
                 </div>
                 <div class="mb-3 text-start">
-                    <label for="address" class="form-label" style="font-weight: 600; color: #343a40;">Address</label>
+                    <label for="address" class="form-label" style="font-weight: 600; color: #fff;">Address</label>
                     <textarea class="form-control" id="address" name="address">{{ request.user.profile.address }}</textarea>
                 </div>
                 <div class="mb-3 text-start">
-                    <label for="phone_number" class="form-label" style="font-weight: 600; color: #343a40;">Phone Number</label>
+                    <label for="phone_number" class="form-label" style="font-weight: 600; color: #fff;">Phone Number</label>
                     <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ request.user.profile.phone_number }}">
                 </div>
                 <button type="submit">Save Changes</button>
-                <a href="{% url 'profile' %}" class="btn cancel-btn mt-2">Cancel</a>
+                <a href="{% url 'profile' %}" class="cancel-link">Cancel</a>
             </form>
         </div>
     </div>

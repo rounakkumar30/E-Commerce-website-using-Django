@@ -25,17 +25,19 @@
         width: 100%;
         max-width: 600px;
         border-radius: 12px;
-        background: #ffffff;
+        background: #222;
+        color: #fff;
         box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+        padding: 30px;
     }
 
     h2 {
-        color: #343a40;
+        color: #fff;
         font-weight: bold;
     }
 
     hr {
-        border-top: 2px solid #007bff;
+        border-top: 2px solid #ffd700;
         width: 50%;
         margin: auto;
     }
@@ -46,18 +48,24 @@
         border-radius: 10px;
         border: none;
         transition: 0.3s;
+        display: inline-block;
+        text-align: center;
+        width: auto;
     }
 
     .btn-warning {
         background: #ffc107;
+        color: #222;
     }
 
     .btn-primary {
         background: #007bff;
+        color: #fff;
     }
 
     .btn-danger {
         background: #dc3545;
+        color: #fff;
     }
 
     .btn:hover {
@@ -67,6 +75,11 @@
     .alert {
         font-weight: bold;
         text-align: center;
+        margin-top: 10px;
+    }
+
+    .btn i {
+        margin-right: 8px;
     }
 </style>
 
@@ -87,7 +100,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <h4 style="color: #007bff; font-weight: bold;">Hello, {{ request.user.username }}!</h4>
+                    <h4 style="color: #ffd700; font-weight: bold;">Hello, {{ request.user.username }}!</h4>
                     <p><strong>Email:</strong> {{ request.user.email }}</p>
                     <p><strong>Full Name:</strong>
                         {% if request.user.first_name or request.user.last_name %}
@@ -124,9 +137,9 @@
 
                     <!-- Buttons -->
                     <div class="d-flex justify-content-center mt-3">
-                        <a href="{% url 'edit_profile' %}" class="btn btn-warning mx-2">✏️ Edit Profile</a>
-                        <a href="{% url 'change_password' %}" class="btn btn-primary mx-2">🔒 Change Password</a>
-                        <a href="{% url 'delete_account' %}" class="btn btn-danger mx-2">❌ Delete Account</a>
+                        <a href="{% url 'edit_profile' %}" class="btn btn-warning mx-2"><i class="fas fa-edit"></i> Edit Profile</a>
+                        <a href="{% url 'change_password' %}" class="btn btn-primary mx-2"><i class="fas fa-lock"></i> Change Password</a>
+                        <a href="{% url 'delete_account' %}" class="btn btn-danger mx-2"><i class="fas fa-trash-alt"></i> Delete Account</a>
                     </div>
 
                 </div>
