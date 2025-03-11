@@ -8,11 +8,10 @@ from base.models import BaseModel  # Explicit import instead of wildcard
 from products.models import Product, ColorVariant, SizeVariant  # Explicit imports
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.TextField()
     is_email_verified = models.BooleanField(default=False)
     email_token = models.CharField(max_length=100, null=True, blank=True)
-    profile_image = models.ImageField(upload_to='profile', null=True, blank=True)
-    address = models.TextField(blank=True, null=True)   
 
     def __str__(self):
         return self.user.username

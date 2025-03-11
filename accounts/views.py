@@ -43,11 +43,10 @@ def register_page(request):
         password = request.POST.get('password')
         address = request.POST.get('address')
 
-        user_obj = User.objects.filter(username=email)
-
-        if user_obj.exists():
+        # Check if the user already exists
+        if User.objects.filter(username=email).exists():
             messages.warning(request, 'Email is already taken.')
-            return HttpResponseRedirect(request.path_info)
+            return redirect('register')
 
         # Create user
         user_obj = User.objects.create(
@@ -59,11 +58,12 @@ def register_page(request):
         user_obj.set_password(password)
         user_obj.save()
 
-        # Create profile with address
-        Profile.objects.create(user=user_obj, address=address)
+        # Check if a profile already exists
+        if not Profile.objects.filter(user=user_obj).exists():
+            Profile.objects.create(user=user_obj, address=address)
 
-        messages.success(request, 'Registration successful! You can now log in.')
-        return redirect('login')  # Redirect to login page
+        messages.success(request, 'Registration successful! A verification email has been sent.')
+        return redirect('login')  
 
     return render(request, 'accounts/register.html')
 
@@ -79,7 +79,9 @@ def activate_email(request, email_token):
     
 @login_required
 def profile_view(request):
-    return render(request, 'accounts/profile.html')
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    return render(request, 'accounts/profile.html', {'profile': profile})
+
 
 @login_required
 def edit_profile(request):

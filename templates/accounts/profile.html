@@ -19,12 +19,13 @@
                         {% endif %}
                     </p>
                     <p><strong>Address:</strong> 
-                        {% if request.user.profile.address %}
-                            {{ request.user.profile.address }}
+                        {% if profile.address %}
+                            {{ profile.address }}
                         {% else %}
                             Not Provided
                         {% endif %}
                     </p>
+                    
                     <p><strong>Email Verified:</strong> 
                         {% if request.user.is_active %}
                             ✅ Yes
