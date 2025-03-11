@@ -41,15 +41,15 @@ def register_page(request):
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        phone_number = request.POST.get('phone_number')
-        address = request.POST.get('address', 'Not Provided')
+        phone_number = request.POST.get('phone_number', '')  # Get phone number
+        address = request.POST.get('address', '')  # Get address
 
         # Check if the user already exists
         if User.objects.filter(username=email).exists():
             messages.warning(request, 'Email is already taken.')
             return redirect('register')
 
-        # Create user
+        # Create the user
         user_obj = User.objects.create(
             first_name=first_name, 
             last_name=last_name, 
@@ -59,13 +59,13 @@ def register_page(request):
         user_obj.set_password(password)
         user_obj.save()
 
-        # Ensure profile does not exist before creating
+        # Create a profile and store address & phone number
         profile, created = Profile.objects.get_or_create(user=user_obj)
         profile.address = address
         profile.phone_number = phone_number
-        profile.save()  # Save updated data
+        profile.save()
 
-        messages.success(request, 'Registration successful! A verification email has been sent.')
+        messages.success(request, 'Registration successful!')
         return redirect('login')  
 
     return render(request, 'accounts/register.html')

@@ -9,7 +9,7 @@ from products.models import Product, ColorVariant, SizeVariant
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.TextField(default="Not provided") 
+    address = models.TextField(blank=True, null=True)
     is_email_verified = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=15, null=True, blank=True)  
     email_token = models.CharField(max_length=100, null=True, blank=True)
