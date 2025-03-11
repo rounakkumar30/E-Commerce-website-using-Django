@@ -33,6 +33,13 @@
                             ❌ No
                         {% endif %}
                     </p>
+                    <p><strong>Phone Number:</strong> 
+                        {% if profile.phone_number %}
+                            {{ profile.phone_number }}
+                        {% else %}
+                            Not Provided
+                        {% endif %}
+                    </p>
                     <p><strong>Date Joined:</strong> {{ request.user.date_joined }}</p>
                     <p><strong>Last Login:</strong> {{ request.user.last_login }}</p>
 

@@ -41,7 +41,8 @@ def register_page(request):
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        address = request.POST.get('address')
+        phone_number = request.POST.get('phone_number')
+        address = request.POST.get('address', 'Not Provided')
 
         # Check if the user already exists
         if User.objects.filter(username=email).exists():
@@ -58,14 +59,17 @@ def register_page(request):
         user_obj.set_password(password)
         user_obj.save()
 
-        # Check if a profile already exists
-        if not Profile.objects.filter(user=user_obj).exists():
-            Profile.objects.create(user=user_obj, address=address)
+        # Ensure profile does not exist before creating
+        profile, created = Profile.objects.get_or_create(user=user_obj)
+        profile.address = address
+        profile.phone_number = phone_number
+        profile.save()  # Save updated data
 
         messages.success(request, 'Registration successful! A verification email has been sent.')
         return redirect('login')  
 
     return render(request, 'accounts/register.html')
+
 
 
 def activate_email(request, email_token):
@@ -100,15 +104,16 @@ def edit_profile(request):
         first_name = request.POST.get("first_name", "").strip()
         last_name = request.POST.get("last_name", "").strip()
         address = request.POST.get("address", "").strip()
+        phone_number = request.POST.get("phone_number", "").strip()  # Get phone number
 
         user = request.user
         user.first_name = first_name
         user.last_name = last_name
         user.save()
 
-        # Update address in profile
-        profile, created = Profile.objects.get_or_create(user=user)
+        profile, _ = Profile.objects.get_or_create(user=user)
         profile.address = address
+        profile.phone_number = phone_number  # Save phone number
         profile.save()
 
         messages.success(request, "Profile updated successfully!")

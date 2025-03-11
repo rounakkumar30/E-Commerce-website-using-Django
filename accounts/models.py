@@ -4,13 +4,14 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import uuid
 from base.emails import send_account_activation_email
-from base.models import BaseModel  # Explicit import instead of wildcard
-from products.models import Product, ColorVariant, SizeVariant  # Explicit imports
+from base.models import BaseModel  
+from products.models import Product, ColorVariant, SizeVariant  
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.TextField()
+    address = models.TextField(default="Not provided") 
     is_email_verified = models.BooleanField(default=False)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)  
     email_token = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
@@ -36,7 +37,7 @@ class Cart(BaseModel):
             if cart_item.size_variant:
                 price.append(cart_item.size_variant.price)
 
-        print(price)  # Debugging line (remove in production)
+        print(price)  
         return sum(price)
 
 
@@ -45,10 +46,10 @@ class CartItems(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
     color_variant = models.ForeignKey(ColorVariant, on_delete=models.SET_NULL, blank=True, null=True)
     size_variant = models.ForeignKey(SizeVariant, on_delete=models.SET_NULL, blank=True, null=True)
-    quantity = models.PositiveIntegerField(default=1)  # Added quantity field
+    quantity = models.PositiveIntegerField(default=1)  
 
     def get_product_price(self):
-        price = self.product.price  # Base product price
+        price = self.product.price  
 
         if self.color_variant:
             price += self.color_variant.price
@@ -56,9 +57,9 @@ class CartItems(BaseModel):
         if self.size_variant:
             price += self.size_variant.price
 
-        total_price = price * self.quantity  # Multiply by quantity
+        total_price = price * self.quantity  
         
-        print(f"Product: {self.product.name}, Price: {price}, Quantity: {self.quantity}, Total: {total_price}")  # Debugging
+        print(f"Product: {self.product.name}, Price: {price}, Quantity: {self.quantity}, Total: {total_price}")  
 
         return total_price
 

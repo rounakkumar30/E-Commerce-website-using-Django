@@ -28,6 +28,10 @@
                     <label for="address" class="form-label">Address</label>
                     <textarea class="form-control" id="address" name="address">{{ request.user.profile.address }}</textarea>
                 </div>
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ request.user.profile.phone_number }}">
+                </div>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
                 <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
             </form>
