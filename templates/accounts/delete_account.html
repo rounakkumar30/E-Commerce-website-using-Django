@@ -1,7 +1,65 @@
 {% extends 'base/base.html' %}
 
 {% block start %}
-<div class="container mt-5">
+<style>
+    /* Background Animation */
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .section-container {
+        min-height: 100vh;
+        background: linear-gradient(-45deg, #000000, #b8860b, #222, #ffd700);
+        background-size: 300% 300%;
+        animation: gradientBG 8s ease infinite;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 600px;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    h2 {
+        color: #343a40;
+        font-weight: bold;
+    }
+
+    p {
+        color: #495057;
+    }
+
+    .btn {
+        font-weight: bold;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+    }
+
+    .btn:hover {
+        transform: scale(1.02);
+    }
+</style>
+
+<div class="section-container">
     <div class="card shadow-sm">
         <div class="card-body text-center">
             <h2>Delete Account</h2>
@@ -14,4 +72,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

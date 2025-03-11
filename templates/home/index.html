@@ -2,27 +2,44 @@
 
 {% block start %}
 
-<div class="container mt-5 pt-5">
-    <div class="row">
-        {% for product in products %}
-        <div class="col-md-3">
-            <figure class="card card-product-grid">
-                <div class="img-wrap">
-                    <img src="/media/{{ product.product_images.first.image }}" alt="{{ product.product_name }}">
-                </div>
-                <figcaption class="info-wrap border-top">
-                    <a href="{% url 'get_product' product.slug %}" class="title">
-                        <b>{{ product.product_name }}</b>
-                    </a>
-                    <div class="price mt-2">₹{{ product.price }}.00</div> <!-- price-wrap.// -->
-                </figcaption>
-            </figure> <!-- card // -->
-        </div> <!-- col.// -->
-        {% endfor %}
+<style>
+    /* Background Animation */
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
+    .section-container {
+        min-height: 100vh;
+        background: linear-gradient(-45deg, #000000, #b8860b, #222, #ffd700);
+        background-size: 300% 300%;
+        animation: gradientBG 8s ease infinite;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+</style>
 
+<div class="section-container">
+    <div class="container mt-5 pt-5">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-3">
+                <figure class="card card-product-grid">
+                    <div class="img-wrap">
+                        <img src="/media/{{ product.product_images.first.image }}" alt="{{ product.product_name }}">
+                    </div>
+                    <figcaption class="info-wrap border-top">
+                        <a href="{% url 'get_product' product.slug %}" class="title">
+                            <b>{{ product.product_name }}</b>
+                        </a>
+                        <div class="price mt-2">₹{{ product.price }}.00</div> <!-- price-wrap.// -->
+                    </figcaption>
+                </figure> <!-- card // -->
+            </div> <!-- col.// -->
+            {% endfor %}
+        </div>
     </div>
-
 </div>
 
 {% endblock %}

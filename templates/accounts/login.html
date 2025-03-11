@@ -2,48 +2,145 @@
 
 {% block start %}
 
+<style>
+    /* Background Animation */
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-<section class="section-conten padding-y" style="min-height:84vh">
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(-45deg, #000000, #b8860b, #222, #ffd700);
+        background-size: 300% 300%;
+        animation: gradientBG 8s ease infinite;
+    }
 
-    <!-- ============================ COMPONENT LOGIN   ================================= -->
-       
+    .card {
+        max-width: 500px;
+        width: 100%;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        background: #222;
+        color: #fff;
+        padding: 35px;
+    }
 
-            <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">Sign In</h4>
-                    <form method="POST">
-                        {% csrf_token %}
-                        {% include "base/alert.html" %}
-            
-                        <div class="form-group">
-                            <input name="email" class="form-control" placeholder="Email" type="text" required>
-                        </div> 
-            
-                        <div class="form-group">
-                            <input name="password" class="form-control" placeholder="Password" type="password" required>
-                        </div> 
-            
-                        <div class="form-group">
-                            <a href="#" class="float-right">Forgot password?</a>
-                            <label class="float-left custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input">
-                                <span class="custom-control-label">Remember me</span>
-                            </label>
-                        </div> 
-            
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block"> Login </button>
-                        </div> 
-                    </form>
+    .card-body {
+        padding: 40px;
+    }
+
+    /* Targeting h4 for the Sign In title and making it white */
+    h4.card-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 26px;
+        color: #ffffff !important; /* Ensuring white color with !important */
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 14px;
+        border: 2px solid #b8860b;
+        font-size: 18px;
+        background: #333;
+        color: #fff;
+    }
+
+    .form-control::placeholder {
+        color: #ccc;
+    }
+
+    .btn-login {
+        border-radius: 8px;
+        font-size: 20px;
+        padding: 12px;
+        background: linear-gradient(to right, #ffd700, #b8860b);
+        border: none;
+        color: #222;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-login:hover {
+        background: linear-gradient(to right, #b8860b, #ffd700);
+        transform: scale(1.05);
+    }
+
+    .custom-control-label {
+        color: #ccc;
+    }
+
+    .remember-forgot-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .forgot-password {
+        color: #ffd700;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+    .forgot-password:hover {
+        text-decoration: underline;
+    }
+
+    .signup-text {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    .signup-text a {
+        color: #ffd700;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .signup-text a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<section class="login-container">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Sign In</h4>
+            <form method="POST">
+                {% csrf_token %}
+                {% include "base/alert.html" %}
+
+                <div class="form-group">
+                    <input name="email" class="form-control" placeholder="Email" type="text" required>
                 </div> 
-            </div>
-            
-    
-         <p class="text-center mt-4">Don't have account? <a href="{% url 'register' %}">Sign up</a></p>
-         <br><br>
-    <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
-    
-    
-    </section>
-    
+
+                <div class="form-group">
+                    <input name="password" class="form-control" placeholder="Password" type="password" required>
+                </div> 
+
+                <div class="remember-forgot-container">
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-label">Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div> 
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-login btn-block">Sign In</button>
+                </div> 
+
+                <p class="signup-text">Don't have an account? <a href="{% url 'register' %}">Sign up</a></p>
+            </form>
+        </div> 
+    </div>
+</section>
+
 {% endblock %}

@@ -164,20 +164,20 @@ def add_to_cart(request, uid):
     user = request.user
     cart, _ = Cart.objects.get_or_create(user=user, is_paid=False)
 
-    cart_item, created = CartItems.objects.get_or_create(cart=cart, product=product)
+    size_variant = None
+    if variant:
+        size_variant = get_object_or_404(SizeVariant, size_name=variant)
+
+    # Ensure size_variant is included in get_or_create
+    cart_item, created = CartItems.objects.get_or_create(cart=cart, product=product, size_variant=size_variant)
 
     if not created:
         cart_item.quantity += 1
     else:
         cart_item.quantity = 1
 
-    if variant:
-        size_variant = get_object_or_404(SizeVariant, size_name=variant)
-        cart_item.size_variant = size_variant
-
     cart_item.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
 
 
 def cart(request):
