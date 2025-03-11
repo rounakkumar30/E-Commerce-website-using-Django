@@ -29,7 +29,10 @@
             <p><strong>Last Login:</strong> {{ request.user.last_login }}</p>
             <p><strong>Cart Items:</strong> {{ request.user.profile.get_cart_count }}</p>
 
-            <a href="{% url 'logout' %}" class="btn btn-danger mt-3">Logout</a>
+            <div class="d-flex justify-content-center mt-3">
+                <a href="{% url 'edit_profile' %}" class="btn btn-warning me-2">Edit Profile</a>
+                <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+            </div>
         </div>
     </div>
 </div>

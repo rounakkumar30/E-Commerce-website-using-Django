@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Profile
+from django.contrib.auth.decorators import login_required
+
 from accounts.models import Cart, CartItems
 from products.models import *
 
@@ -69,9 +71,30 @@ def activate_email(request, email_token):
     except Profile.DoesNotExist:
         return HttpResponse('Invalid Email Token')
     
-
+@login_required
 def profile_view(request):
     return render(request, 'accounts/profile.html')
+
+@login_required
+def edit_profile(request):
+    return render(request, 'accounts/edit_profile.html')
+
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        first_name = request.POST.get("first_name", "").strip()
+        last_name = request.POST.get("last_name", "").strip()
+
+        # Update user profile
+        user = request.user
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+
+        messages.success(request, "Profile updated successfully!")
+        return redirect("profile")  # Redirect back to profile page
+
+    return render(request, "accounts/edit_profile.html")
 
 
 def add_to_cart(request, uid):
