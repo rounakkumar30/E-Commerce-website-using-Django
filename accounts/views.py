@@ -66,6 +66,8 @@ def register_page(request):
         return redirect('login')  # Redirect to login page
 
     return render(request, 'accounts/register.html')
+
+
 def activate_email(request, email_token):
     try:
         user = Profile.objects.get(email_token=email_token)
@@ -81,7 +83,25 @@ def profile_view(request):
 
 @login_required
 def edit_profile(request):
-    return render(request, 'accounts/edit_profile.html')
+    if request.method == "POST":
+        first_name = request.POST.get("first_name", "").strip()
+        last_name = request.POST.get("last_name", "").strip()
+        address = request.POST.get("address", "").strip()
+
+        user = request.user
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+
+        # Update address in profile
+        profile, created = Profile.objects.get_or_create(user=user)
+        profile.address = address
+        profile.save()
+
+        messages.success(request, "Profile updated successfully!")
+        return redirect("profile")
+
+    return render(request, "accounts/edit_profile.html")
 
 @login_required
 def edit_profile(request):

@@ -12,8 +12,7 @@ class Profile(models.Model):
     is_email_verified = models.BooleanField(default=False)
     email_token = models.CharField(max_length=100, null=True, blank=True)
     profile_image = models.ImageField(upload_to='profile', null=True, blank=True)
-    address = models.TextField(blank=True, null=True)  # Allow empty addresses
-
+    address = models.TextField(blank=True, null=True)   
 
     def __str__(self):
         return self.user.username
