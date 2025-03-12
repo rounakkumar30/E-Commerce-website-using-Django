@@ -1,26 +1,122 @@
 {% extends 'base/base.html' %}
 
 {% block start %}
-<div class="container mt-4">
-    <h2>Search Results for "{{ query }}"</h2>
-    
-    {% if products %}
+
+<style>
+    /* Background Animation */
+    @keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .search-container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(-45deg, #000000, #b8860b, #222, #ffd700);
+        background-size: 300% 300%;
+        animation: gradientBG 8s ease infinite;
+        padding: 40px;
+    }
+
+    .search-results {
+        max-width: 1000px;
+        width: 100%;
+        background: #222;
+        color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        color: #ffffff !important;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: #333;
+        color: #fff;
+        border: 2px solid #b8860b;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .card img {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff !important;
+        /* Set to white */
+    }
+
+    .card-text {
+        font-size: 16px;
+        color: #ccc;
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #ffd700, #b8860b);
+        border: none;
+        color: #222;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(to right, #b8860b, #ffd700);
+        transform: scale(1.05);
+    }
+
+    .no-results {
+        text-align: center;
+        font-size: 18px;
+        color: #ccc;
+        margin-top: 20px;
+    }
+</style>
+
+<section class="search-container">
+    <div class="search-results">
+        <h2>Search Results for "{{ query }}"</h2>
+
+        {% if products %}
         <div class="row">
             {% for product in products %}
-                <div class="col-md-4">
-                    <div class="card mb-3">
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description|truncatechars:100 }}</p>
-                            <a href="{% url 'get_product' product.slug %}" class="btn btn-primary">View Product</a>
-                        </div>
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <img src="/media/{{ product.product_images.first.image }}" class="card-img-top"
+                        alt="{{ product.product_name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.product_name }}</h5>
+                        <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                        <a href="{% url 'get_product' product.slug %}" class="btn btn-primary">View Product</a>
                     </div>
                 </div>
+            </div>
             {% endfor %}
         </div>
-    {% else %}
-        <p>No products found.</p>
-    {% endif %}
-</div>
+        {% else %}
+        <p class="no-results">No products found.</p>
+        {% endif %}
+    </div>
+</section>
+
 {% endblock %}
