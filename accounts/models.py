@@ -23,22 +23,11 @@ class Profile(models.Model):
 class Cart(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='carts')
     is_paid = models.BooleanField(default=False)
-    
+
     def get_cart_total(self):
         cart_items = self.cart_items.all()
-        price = []
-
-        for cart_item in cart_items:
-            price.append(cart_item.product.price)
-
-            if cart_item.color_variant:
-                price.append(cart_item.color_variant.price)
-
-            if cart_item.size_variant:
-                price.append(cart_item.size_variant.price)
-
-        print(price)  
-        return sum(price)
+        total = sum(item.get_product_price() for item in cart_items)
+        return total
 
 
 class CartItems(BaseModel):
@@ -49,21 +38,29 @@ class CartItems(BaseModel):
     quantity = models.PositiveIntegerField(default=1)  
 
     def get_product_price(self):
-        price = self.product.price  
+        price = self.product.price
+        print(f"Base price: {price}") #added print statement
 
         if self.color_variant:
             price += self.color_variant.price
+            print(f"Price after color variant: {price}") #added print statement
+
+        if self.size_variant:
+            price += self.size_variant.price
+            print(f"Price after size variant: {price}") #added print statement
+
+        total_price = price * self.quantity
+        print(f"Total price: {total_price}") #added print statement
+
+        return total_price
+    
+    def get_product_price_with_size_variant(self):
+        price = self.product.price
 
         if self.size_variant:
             price += self.size_variant.price
 
-        total_price = price * self.quantity  
-        
-        print(f"Product: {self.product.name}, Price: {price}, Quantity: {self.quantity}, Total: {total_price}")  
-
-        return total_price
-
-
+        return price
 
 @receiver(post_save, sender=User)
 def send_email_token(sender, instance, created, **kwargs):

@@ -123,7 +123,8 @@
                                 <th scope="col">Product</th>
                                 <th scope="col" width="120">Quantity</th>
                                 <th scope="col" width="120">Price</th>
-                                <th scope="col" class="text-right" width="200"> </th>
+                                <th scope="col" width="120">Total</th>
+                                <th scope="col" class="text-right" width="200"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -148,7 +149,12 @@
                                 </td>
                                 <td>
                                     <div class="price-wrap">
-                                        <var class="price">₹{{ cart_item.product.price }}</var> <!-- Price text should be white -->
+                                        <var class="price">₹{{ cart_item.get_product_price_with_size_variant }}</var>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="price-wrap">
+                                        <var class="price">₹{{ cart_item.get_product_price }}</var>
                                     </div>
                                 </td>
                                 <td class="text-right">
@@ -160,9 +166,31 @@
                     </table>
 
                     <div class="card-body border-top">
-                        <a href="#" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a>
-                        <a href="{% url 'index' %}" class="btn btn-primary"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <dt>Total:</dt>
+                                <dd class="text-right h5"><strong>₹{{ cart_total }}</strong></dd>
+                            </div>
+                            <div>
+                                <dt>Discount (10%):</dt>
+                                <dd class="text-right text-danger">- ₹{{ discount|floatformat:2 }}</dd>
+                            </div>
+                            <div>
+                                <dt>Final Total:</dt>
+                                <dd class="text-right h5"><strong>₹{{ final_total }}</strong></dd>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'index' %}" class="btn btn-primary">
+                                <i class="fa fa-chevron-left"></i> Continue shopping
+                            </a>
+                            <a href="#" class="btn btn-primary float-md-right">
+                                Make Purchase <i class="fa fa-chevron-right"></i>
+                            </a>
+                        </div>
                     </div>
+
                 </div>
 
                 <div class="alert alert-success mt-3">
@@ -184,16 +212,6 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <dl class="dlist-align">
-                            <dt>Total:</dt>
-                            <dd class="text-right h5"><strong>{{ final_total }}</strong></dd>
-                        </dl>
-                        <hr>
                     </div>
                 </div>
             </aside>

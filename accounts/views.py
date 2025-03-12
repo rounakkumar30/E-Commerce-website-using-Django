@@ -244,25 +244,26 @@ def cart(request):
     context = {'cart_items': cart_items}
     return render(request, 'accounts/cart.html', context)
 
+@login_required
 def cart_view(request):
-    cart_items = CartItems.objects.filter(cart__user=request.user, cart__is_paid=False)
-    
-    cart_total = sum(item.get_product_price() for item in cart_items)  # Calculate total price
-    
-    discount = 10  
-    final_total = cart_total - discount  # Ensure this is correctly calculated
+    cart, _ = Cart.objects.get_or_create(user=request.user, is_paid=False)
+    cart_items = cart.cart_items.all()
 
-    # Debugging Print Statements
-    print("Cart Items:", cart_items)
-    print("Cart Total:", cart_total)
-    print("Final Total:", final_total)
+    cart_total = 0
+    for item in cart_items:
+        cart_total += item.get_product_price()
 
-    return render(request, "accounts/cart.html", {
-        "cart_items": cart_items,
-        "cart_total": cart_total,
-        "discount": discount,
-        "final_total": final_total,
-    })
+    discount_percentage = 10  # 10% discount
+    discount_amount = (discount_percentage / 100) * cart_total
+    final_total = cart_total - discount_amount
+
+    context = {
+        'cart_items': cart_items,
+        'cart_total': cart_total,
+        'discount': discount_amount,
+        'final_total': final_total,
+    }
+    return render(request, 'accounts/cart.html', context)
 
 
 def remove_cart(request, uid):  # Change 'cart_item_uid' to 'uid'
