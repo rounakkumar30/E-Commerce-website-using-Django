@@ -28,7 +28,7 @@ This is a **feature-rich e-commerce website** built using Django, allowing users
 
 ### 1️⃣ Clone the Repository  
 ```bash
-git clone [your_github_repo_link]
+git clone https://github.com/rounakkumar30/E-Commerce-website-using-Django.git
 cd ecommerce-django
 
 
