@@ -106,10 +106,10 @@ Feel free to **fork** the repository, create a **feature branch**, and submit a 
 🔹 **LinkedIn:** [Rounak Kumar](https://www.linkedin.com/in/rounakkumar30/)  
 🔹 **Email:** rounakverma30march@gmail.com  
 
----
 ## 📜 License
 
-This project is licensed under the ![MIT License](https://img.shields.io/badge/License-MIT-green.svg).
+This project is licensed under the **MIT License**.
+![MIT License](https://img.shields.io/badge/License-MIT-green.svg).
 
 ---
 
