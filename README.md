@@ -13,8 +13,7 @@ This is a **feature-rich e-commerce website** built using Django, allowing users
 
 ### 🛍️ **Shopping & Order Features**  
 - 🛒 **Product Listings** – Users can browse and view product details.  
-- 🛍️ **Add to Cart** – Easily add/remove items before checkout.  
-- 📦 **Order History** – Track previous purchases.  
+- 🛍️ **Add to Cart** – Easily add/remove items before checkout.   
 
 ### 🎛️ **Admin Panel**  
 - 🔧 **Manage users, products, orders, and more**.  
