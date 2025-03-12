@@ -1,6 +1,3 @@
-Here's your `README.md` file with proper GitHub Markdown syntax:  
-
-```markdown
 # 🛒 Django E-Commerce Website  
 
 ## 📌 Project Overview  
@@ -27,6 +24,14 @@ This is a **feature-rich e-commerce website** built using Django, allowing users
 - 📲 **Optimized for desktop, tablet, and mobile devices**.  
 
 ---
+
+## ⚙️ Installation & Setup  
+
+### 1️⃣ Clone the Repository  
+```bash
+git clone [your_github_repo_link]
+cd ecommerce-django
+
 
 ## ⚙️ Installation & Setup  
 
