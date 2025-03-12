@@ -109,6 +109,7 @@ Feel free to **fork** the repository, create a **feature branch**, and submit a 
 ## 📜 License
 
 This project is licensed under the **MIT License**.
+
 ![MIT License](https://img.shields.io/badge/License-MIT-green.svg).
 
 ---
