@@ -1,25 +1,4 @@
-  
 
-### **Errors & Fixes**  
-1. **Duplicate "Installation & Setup" Section**  
-   - Remove the **extra "Installation & Setup"** section after cloning the repository.  
-   - Keep only **one** installation guide.  
-
-2. **Incorrect Virtual Environment Activation Command for Windows**  
-   - Instead of `source venv/bin/activate`, use:  
-     ```bash
-     venv\Scripts\activate
-     ```  
-
-3. **Missing "Shopping & Order Features" Subsection**  
-   - No mention of **order history or checkout functionality**. Consider adding:  
-     ```markdown
-     - 🛒 **Checkout System** – Secure payment integration (if applicable).  
-     - 📦 **Order History** – Track previous purchases.  
-     ```  
-
-### **Fixed Version**
-```markdown
 # 🛒 Django E-Commerce Website  
 
 ## 📌 Project Overview  
