@@ -108,7 +108,3 @@ Feel free to **fork** the repository, create a **feature branch**, and submit a 
 
 ### ⭐ **If you like this project, don't forget to give it a star!** ⭐  
 
-#Django #Ecommerce #WebDevelopment #Python #Authentication #CyberSecurity #OpenSource 🚀
-```
-
-This is **GitHub-ready** with proper formatting, syntax highlighting, and clickable links. Just replace **[your_github_repo_link]** and **your social/contact info**, and you're good to go! 🚀
