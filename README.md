@@ -1,7 +1,31 @@
+  
+
+### **Errors & Fixes**  
+1. **Duplicate "Installation & Setup" Section**  
+   - Remove the **extra "Installation & Setup"** section after cloning the repository.  
+   - Keep only **one** installation guide.  
+
+2. **Incorrect Virtual Environment Activation Command for Windows**  
+   - Instead of `source venv/bin/activate`, use:  
+     ```bash
+     venv\Scripts\activate
+     ```  
+
+3. **Missing "Shopping & Order Features" Subsection**  
+   - No mention of **order history or checkout functionality**. Consider adding:  
+     ```markdown
+     - 🛒 **Checkout System** – Secure payment integration (if applicable).  
+     - 📦 **Order History** – Track previous purchases.  
+     ```  
+
+### **Fixed Version**
+```markdown
 # 🛒 Django E-Commerce Website  
 
 ## 📌 Project Overview  
 This is a **feature-rich e-commerce website** built using Django, allowing users to **register, verify their email, shop, manage profiles, and recover passwords securely**.  
+
+---
 
 ## 🚀 Features  
 
@@ -13,7 +37,8 @@ This is a **feature-rich e-commerce website** built using Django, allowing users
 
 ### 🛍️ **Shopping & Order Features**  
 - 🛒 **Product Listings** – Users can browse and view product details.  
-- 🛍️ **Add to Cart** – Easily add/remove items before checkout.   
+- 🛍️ **Add to Cart** – Easily add/remove items before checkout.  
+- 💳 **Checkout System** – Secure payment integration (if applicable).  
 
 ### 🎛️ **Admin Panel**  
 - 🔧 **Manage users, products, orders, and more**.  
@@ -30,21 +55,19 @@ This is a **feature-rich e-commerce website** built using Django, allowing users
 ```bash
 git clone https://github.com/rounakkumar30/E-Commerce-website-using-Django.git
 cd ecommerce-django
-
-
-## ⚙️ Installation & Setup  
-
-### 1️⃣ Clone the Repository  
-```bash
-git clone [your_github_repo_link]
-cd ecommerce-django
 ```
 
 ### 2️⃣ Create a Virtual Environment  
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+- **Mac/Linux**  
+  ```bash
+  python -m venv venv
+  source venv/bin/activate
+  ```
+- **Windows**  
+  ```bash
+  python -m venv venv
+  venv\Scripts\activate
+  ```
 
 ### 3️⃣ Install Dependencies  
 ```bash
@@ -95,13 +118,13 @@ Visit **[http://127.0.0.1:8000/](http://127.0.0.1:8000/)** in your browser.
 ## 🤝 Contribution  
 Feel free to **fork** the repository, create a **feature branch**, and submit a **pull request**!  
 
-📌 **GitHub Repository:** https://github.com/rounakkumar30/E-Commerce-website-using-Django.git 
+📌 **GitHub Repository:** [E-Commerce Website](https://github.com/rounakkumar30/E-Commerce-website-using-Django.git)  
 
 ---
 
 ## 📩 Contact  
 🔹 **Author:** Rounak Kumar  
-🔹 **LinkedIn:** https://www.linkedin.com/in/rounakkumar30/  
+🔹 **LinkedIn:** [Rounak Kumar](https://www.linkedin.com/in/rounakkumar30/)  
 🔹 **Email:** rounakverma30march@gmail.com  
 
 ---
@@ -109,5 +132,5 @@ Feel free to **fork** the repository, create a **feature branch**, and submit a 
 ### ⭐ **If you like this project, don't forget to give it a star!** ⭐  
 
 ![MIT License](https://img.shields.io/badge/License-MIT-green.svg)
-
+```
 
