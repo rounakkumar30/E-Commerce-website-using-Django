@@ -107,9 +107,14 @@ Feel free to **fork** the repository, create a **feature branch**, and submit a 
 🔹 **Email:** rounakverma30march@gmail.com  
 
 ---
+## 📜 License
+
+This project is licensed under the ![MIT License](https://img.shields.io/badge/License-MIT-green.svg).
+
+---
 
 ### ⭐ **If you like this project, don't forget to give it a star!** ⭐  
 
-![MIT License](https://img.shields.io/badge/License-MIT-green.svg)
+
 
 
