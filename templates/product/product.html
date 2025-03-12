@@ -5,17 +5,9 @@
 <style>
     /* Background Animation */
     @keyframes gradientBG {
-        0% {
-            background-position: 0% 50%;
-        }
-
-        50% {
-            background-position: 100% 50%;
-        }
-
-        100% {
-            background-position: 0% 50%;
-        }
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
     .product-container {
@@ -72,6 +64,7 @@
         display: block;
         width: 100%;
         text-align: center;
+        cursor: pointer;
     }
 
     .btn-custom:hover {
@@ -83,66 +76,11 @@
         color: #ccc;
     }
 
-    /* Image Gallery */
-    .gallery-wrap {
-        text-align: center;
-    }
-
+    /* Apply pointer cursor to the main product image */
     .img-big-wrap img {
-        width: 100%;
-        border-radius: 10px;
-        cursor: default;
-        /* Removes zoom cursor */
-    }
-
-    .thumbs-wrap {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 10px;
-    }
-
-    .thumbs-wrap img {
-        width: 60px;
-        height: 60px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: transform 0.2s ease-in-out;
-        border: 2px solid transparent;
-    }
-
-    .thumbs-wrap img:hover {
-        transform: scale(1.1);
-        border: 2px solid #ffd700;
-    }
-
-    /* Modal Zoom */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content {
-        max-width: 90%;
-        max-height: 90%;
-    }
-
-    .close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        color: white;
-        font-size: 30px;
         cursor: pointer;
     }
+
 </style>
 
 <section class="product-container">
@@ -150,21 +88,26 @@
         <div class="row no-gutters">
             <aside class="col-md-6">
                 <article class="gallery-wrap">
-
+                    <!-- Main Product Image -->
                     <div class="img-big-wrap">
-                        <a href="#" onclick="openModal(); return false;">
-                            <img id="main-image" src="{{ product.product_images.first.image.url }}" alt="Product Image"
-                                class="img-fluid">
-                        </a>
+                        {% if product.product_images.first %}
+                            <a href="#" id="main-image-link">
+                                <img src="{{ product.product_images.first.image.url }}" 
+                                     alt="Product Image" 
+                                     class="img-fluid" 
+                                     id="main-product-image">
+                            </a>
+                        {% else %}
+                            <img src="/static/default.jpg" alt="Default Product Image" class="img-fluid">
+                        {% endif %}
                     </div>
-
 
                     <!-- Thumbnails -->
                     <div class="thumbs-wrap">
                         {% for image in product.product_images.all %}
-                        <a href="#" class="item-thumb" onclick="changeImage('{{ image.image.url }}'); return false;">
-                            <img src="{{ image.image.url }}" alt="Product Image" class="img-fluid">
-                        </a>
+                            <a href="#" class="item-thumb" onclick="changeImage('{{ image.image.url }}'); return false;">
+                                <img src="{{ image.image.url }}" alt="Product Image" class="img-fluid">
+                            </a>
                         {% endfor %}
                     </div>
                 </article>
@@ -172,21 +115,32 @@
 
             <main class="col-md-6 border-left">
                 <article class="content-body">
-                    <h2 class="title" style="color: #ffffff !important;">{{ product.product_name }}</h2>
+                  <h2 class="title" style="color: #ffffff !important;">{{ product.product_name }}</h2>
 
                     <p>{{ product.product_description }}</p>
 
                     <div class="mb-3">
-                        <var class="price">₹
+                        <var class="price">₹ 
                             {% if updated_price %}
-                            {{ updated_price }}
+                                {{ updated_price }}
                             {% else %}
-                            {{ product.price }}
+                                {{ product.price }}
                             {% endif %}
                             .00
                         </var>
                         <span class="text-muted">/per pc</span>
                     </div>
+
+                    <dl class="row">
+                        <dt class="col-sm-4">Model#</dt>
+                        <dd class="col-sm-8">Odsy-1000</dd>
+
+                        <dt class="col-sm-4">Color</dt>
+                        <dd class="col-sm-8">Brown</dd>
+
+                        <dt class="col-sm-4">Delivery</dt>
+                        <dd class="col-sm-8">Russia, USA, and Europe</dd>
+                    </dl>
 
                     <hr>
 
@@ -203,36 +157,42 @@
                                 </div>
                             </div>
                         </div>
+
+                        {% if product.size_variant.count %}
+                        <div class="form-group col-md">
+                            <label>Select size</label>
+                            <div class="mt-1">
+                                {% for size in product.size_variant.all %}
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" onchange="get_correct_price('{{size.size_name}}')" 
+                                    name="select_size" 
+                                    {% if selected_size|default:'' == size.size_name %} checked {% endif %} 
+                                    value="{{ size.size_name }}" 
+                                    class="custom-control-input">
+                                    <div class="custom-control-label">{{ size.size_name }}</div>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
 
                     <a href="#" class="btn btn-custom">Buy Now</a>
-                    <a href="{% url 'add_to_cart' product.uid %}?variant={{selected_size}}"
-                        class="btn btn-custom mt-2">Add to Cart</a>
+                    <a href="{% url 'add_to_cart' product.uid %}?variant={{selected_size}}" class="btn btn-custom mt-2">Add to Cart</a>
                 </article>
             </main>
         </div>
     </div>
 </section>
 
-<!-- Zoom Modal -->
-<div id="zoomModal" class="modal">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <img class="modal-content" id="zoomedImage">
-</div>
-
+<!-- JavaScript for Image Switching -->
 <script>
-    function changeImage(imageUrl) {
-        document.getElementById("main-image").src = imageUrl;
+    function changeImage(newSrc) {
+        document.getElementById("main-product-image").src = newSrc;
     }
 
-    function openModal() {
-        var imgSrc = document.getElementById("main-image").src;
-        document.getElementById("zoomedImage").src = imgSrc;
-        document.getElementById("zoomModal").style.display = "flex";
-    }
-
-    function closeModal() {
-        document.getElementById("zoomModal").style.display = "none";
+    function get_correct_price(size) {
+        window.location.href = window.location.pathname + "?size=" + size;
     }
 </script>
 
